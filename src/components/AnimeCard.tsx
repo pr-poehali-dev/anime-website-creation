@@ -19,7 +19,7 @@ export default function AnimeCard({ title, image, rating, genre, year, episodes 
   const [currentRating, setCurrentRating] = useState(rating);
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/50 animate-fade-in">
+    <Card className="group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/50 animate-fade-in cursor-pointer">
       <div className="relative overflow-hidden">
         <img
           src={image}
@@ -31,8 +31,11 @@ export default function AnimeCard({ title, image, rating, genre, year, episodes 
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 backdrop-blur-sm"
-          onClick={() => setIsBookmarked(!isBookmarked)}
+          className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 backdrop-blur-sm z-10"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsBookmarked(!isBookmarked);
+          }}
         >
           <Icon 
             name={isBookmarked ? "Bookmark" : "BookmarkPlus"} 
@@ -48,7 +51,10 @@ export default function AnimeCard({ title, image, rating, genre, year, episodes 
               size="sm"
               variant="ghost"
               className="ml-auto text-white hover:text-secondary"
-              onClick={() => setCurrentRating(Math.min(10, currentRating + 0.1))}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentRating(Math.min(10, currentRating + 0.1));
+              }}
             >
               <Icon name="Plus" size={16} />
             </Button>

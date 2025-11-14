@@ -1,72 +1,20 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import AnimeCard from '@/components/AnimeCard';
 import FilterBar from '@/components/FilterBar';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { animeDatabase } from '@/data/animeData';
 
-const animeData = [
-  {
-    id: 1,
-    title: 'Небесні воїни',
-    image: 'https://cdn.poehali.dev/projects/b659df73-2f23-40e0-8bbe-fa254e2a45d9/files/427f73f8-a7a7-472f-8206-2da76182a97a.jpg',
-    rating: 9.2,
-    genre: ['Екшн', 'Фентезі', 'Пригоди'],
-    year: 2024,
-    episodes: 24
-  },
-  {
-    id: 2,
-    title: 'Магічний світанок',
-    image: 'https://cdn.poehali.dev/projects/b659df73-2f23-40e0-8bbe-fa254e2a45d9/files/e1f48676-9ad2-4573-8cc6-b37954ce17d8.jpg',
-    rating: 8.7,
-    genre: ['Фентезі', 'Романтика', 'Драма'],
-    year: 2023,
-    episodes: 12
-  },
-  {
-    id: 3,
-    title: 'Легенда про героя',
-    image: 'https://cdn.poehali.dev/projects/b659df73-2f23-40e0-8bbe-fa254e2a45d9/files/69ef0d8c-506e-4c56-abd4-128e338744e6.jpg',
-    rating: 9.5,
-    genre: ['Екшн', 'Пригоди', 'Комедія'],
-    year: 2024,
-    episodes: 36
-  },
-  {
-    id: 4,
-    title: 'Темна сторона місяця',
-    image: 'https://cdn.poehali.dev/projects/b659df73-2f23-40e0-8bbe-fa254e2a45d9/files/427f73f8-a7a7-472f-8206-2da76182a97a.jpg',
-    rating: 8.9,
-    genre: ['Драма', 'Жахи', 'Фентезі'],
-    year: 2023,
-    episodes: 13
-  },
-  {
-    id: 5,
-    title: 'Школа магії',
-    image: 'https://cdn.poehali.dev/projects/b659df73-2f23-40e0-8bbe-fa254e2a45d9/files/e1f48676-9ad2-4573-8cc6-b37954ce17d8.jpg',
-    rating: 8.4,
-    genre: ['Комедія', 'Романтика', 'Фентезі'],
-    year: 2024,
-    episodes: 24
-  },
-  {
-    id: 6,
-    title: 'Самурай без меча',
-    image: 'https://cdn.poehali.dev/projects/b659df73-2f23-40e0-8bbe-fa254e2a45d9/files/69ef0d8c-506e-4c56-abd4-128e338744e6.jpg',
-    rating: 9.1,
-    genre: ['Екшн', 'Драма', 'Пригоди'],
-    year: 2023,
-    episodes: 26
-  }
-];
+const topAnime = animeDatabase.slice(0, 6);
 
 export default function Index() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeGenre, setActiveGenre] = useState('Усі');
 
-  const filteredAnime = animeData.filter((anime) => {
+  const filteredAnime = topAnime.filter((anime) => {
     const matchesSearch = anime.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesGenre = activeGenre === 'Усі' || anime.genre.includes(activeGenre);
     return matchesSearch && matchesGenre;
@@ -124,7 +72,7 @@ export default function Index() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredAnime.map((anime, idx) => (
-            <div key={anime.id} style={{ animationDelay: `${idx * 0.1}s` }}>
+            <div key={anime.id} style={{ animationDelay: `${idx * 0.1}s` }} onClick={() => navigate(`/anime/${anime.id}`)}>
               <AnimeCard {...anime} />
             </div>
           ))}
